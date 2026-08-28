@@ -1,1109 +1,556 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" data-theme="dark">
+<html lang="ar" dir="rtl" id="html-root">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nazdar — Psychological Practice & Educational Platform</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Vazirmatn:wght@300..800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    /* Dark Theme (Default) */
-    --bg-body: #0d0f12;
-    --bg-surface: #14171d;
-    --bg-glass: rgba(255, 255, 255, 0.03);
-    --border-subtle: rgba(255, 255, 255, 0.08);
-    --border-hover: rgba(255, 255, 255, 0.22);
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --text-dim: #64748b;
-    --brand-teal: #2dd4bf;
-    --brand-emerald: #34d399;
-    --brand-warm: #f59e0b;
-    --header-bg: rgba(13, 15, 18, 0.85);
-    --glow-color: rgba(45, 212, 191, 0.12);
-    --footer-bg: #090a0c;
-    --card-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-
-  [data-theme="light"] {
-    --bg-body: #f8fafc;
-    --bg-surface: #ffffff;
-    --bg-glass: rgba(0, 0, 0, 0.02);
-    --border-subtle: rgba(0, 0, 0, 0.08);
-    --border-hover: rgba(0, 0, 0, 0.22);
-    --text-main: #0f172a;
-    --text-muted: #475569;
-    --text-dim: #94a3b8;
-    --brand-teal: #0d9488;
-    --brand-emerald: #059669;
-    --brand-warm: #d97706;
-    --header-bg: rgba(248, 250, 252, 0.85);
-    --glow-color: rgba(13, 148, 136, 0.08);
-    --footer-bg: #f1f5f9;
-    --card-shadow: 0 10px 25px rgba(0,0,0,0.05);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-body);
-    color: var(--text-main);
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    line-height: 1.6;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  body[dir="rtl"] { font-family: 'Vazirmatn', system-ui, sans-serif; }
-
-  .container {
-    max-width: 1200px;
-    margin-inline: auto;
-    padding-inline: 24px;
-  }
-
-  .glow-bg {
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, var(--glow-color) 0%, rgba(0,0,0,0) 70%);
-    top: -150px;
-    inset-inline-start: 50%;
-    transform: translateX(-50%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Header */
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    background: var(--header-bg);
-    border-bottom: 1px solid var(--border-subtle);
-    transition: background-color 0.3s ease;
-  }
-
-  .nav-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 72px;
-  }
-
-  .brand-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: var(--text-main);
-    font-weight: 700;
-    font-size: 20px;
-    letter-spacing: -0.02em;
-  }
-
-  .brand-mark {
-    width: 32px;
-    height: 32px;
-    background: linear-gradient(135deg, var(--brand-teal), var(--brand-emerald));
-    border-radius: 8px;
-    display: grid;
-    place-items: center;
-    color: #fff;
-    font-weight: 800;
-    font-size: 16px;
-  }
-
-  nav { display: flex; gap: 28px; align-items: center; }
-
-  nav a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: color 0.2s;
-  }
-
-  nav a:hover { color: var(--text-main); }
-
-  .controls-group {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  /* Theme Toggle Button */
-  .theme-toggle {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    color: var(--text-main);
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .theme-toggle:hover {
-    border-color: var(--border-hover);
-  }
-
-  .theme-toggle svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
-
-  .lang-picker {
-    display: flex;
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    padding: 3px;
-    border-radius: 8px;
-    gap: 2px;
-  }
-
-  .lang-btn {
-    border: none;
-    background: transparent;
-    color: var(--text-muted);
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .lang-btn.active {
-    background: var(--bg-glass);
-    color: var(--brand-teal);
-    border: 1px solid var(--border-subtle);
-  }
-
-  /* SECTION 1: ABOUT NAZDAR HERO */
-  .profile-hero {
-    position: relative;
-    padding-block: 80px 60px;
-  }
-
-  .profile-grid {
-    display: grid;
-    grid-template-columns: 380px 1fr;
-    gap: 56px;
-    align-items: center;
-  }
-
-  .profile-img-frame {
-    position: relative;
-    border-radius: 20px;
-    padding: 10px;
-    background: var(--bg-glass);
-    border: 1px solid var(--border-subtle);
-  }
-
-  .profile-img-wrapper {
-    position: relative;
-    border-radius: 14px;
-    overflow: hidden;
-    aspect-ratio: 4 / 5;
-    background: var(--bg-surface);
-  }
-
-  .profile-img-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.4s ease;
-  }
-
-  .profile-img-wrapper:hover img { transform: scale(1.03); }
-
-  .experience-badge {
-    position: absolute;
-    bottom: -20px;
-    inset-inline-end: 20px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border-hover);
-    padding: 12px 20px;
-    border-radius: 12px;
-    box-shadow: var(--card-shadow);
-  }
-
-  .badge-num {
-    font-size: 20px;
-    font-weight: 800;
-    color: var(--brand-teal);
-    display: block;
-    line-height: 1;
-  }
-
-  .badge-txt {
-    font-size: 11px;
-    color: var(--text-muted);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .badge-tag {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--brand-teal);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .profile-content h1 {
-    font-size: 44px;
-    font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
-    margin: 8px 0 16px;
-  }
-
-  .profile-title {
-    font-size: 18px;
-    color: var(--text-muted);
-    font-weight: 600;
-    margin-bottom: 20px;
-  }
-
-  .profile-bio {
-    font-size: 16px;
-    color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 28px;
-  }
-
-  .credentials-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 32px;
-  }
-
-  .credential-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: 100px;
-    font-size: 13px;
-    color: var(--text-main);
-    font-weight: 500;
-  }
-
-  .credential-chip svg { width: 16px; height: 16px; fill: var(--brand-teal); }
-
-  .hero-ctas { display: flex; gap: 16px; }
-
-  /* SECTION 2: BOOKINGS */
-  .section { padding-block: 80px; position: relative; }
-
-  .section-title-wrap {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 40px;
-  }
-
-  .section-title-wrap.centered {
-    text-align: center;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .section-title-wrap h2 {
-    font-size: 32px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin: 0 0 8px;
-  }
-
-  .section-title-wrap p { margin: 0; color: var(--text-muted); font-size: 16px; max-width: 600px; }
-
-  .booking-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-
-  .booking-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: 20px;
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    box-shadow: var(--card-shadow);
-    transition: transform 0.25s ease, border-color 0.25s ease;
-  }
-
-  .booking-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--border-hover);
-  }
-
-  .booking-card.featured {
-    border-color: var(--brand-teal);
-  }
-
-  .card-badge {
-    position: absolute;
-    top: -12px;
-    inset-inline-end: 24px;
-    background: var(--brand-teal);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 4px 12px;
-    border-radius: 100px;
-  }
-
-  .b-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: var(--bg-glass);
-    border: 1px solid var(--border-subtle);
-    display: grid;
-    place-items: center;
-    margin-bottom: 20px;
-    color: var(--brand-teal);
-  }
-
-  .booking-card h3 { font-size: 20px; font-weight: 700; margin: 0 0 8px; }
-  .booking-card .meta { font-size: 13px; color: var(--brand-teal); font-weight: 600; margin-bottom: 16px; display: block; }
-  .booking-card p { font-size: 14px; color: var(--text-muted); margin: 0 0 24px; line-height: 1.6; }
-
-  .wa-banner {
-    margin-top: 32px;
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: 12px;
-    padding: 20px 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  /* SECTION 3: COURSES LIBRARY WITH IMAGES */
-  .filter-bar {
-    display: flex;
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    padding: 4px;
-    border-radius: 100px;
-    gap: 4px;
-  }
-
-  .filter-btn {
-    border: none;
-    background: transparent;
-    color: var(--text-muted);
-    padding: 6px 16px;
-    border-radius: 100px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .filter-btn.active {
-    background: var(--brand-teal);
-    color: #fff;
-  }
-
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-
-  .course-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    border-radius: 20px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: var(--card-shadow);
-    transition: transform 0.25s ease, border-color 0.25s ease;
-  }
-
-  .course-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--border-hover);
-  }
-
-  .course-thumb {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    position: relative;
-    overflow: hidden;
-    background: var(--bg-glass);
-  }
-
-  .course-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-  }
-
-  .course-card:hover .course-thumb img { transform: scale(1.05); }
-
-  .card-tag {
-    position: absolute;
-    top: 12px;
-    inset-inline-start: 12px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 6px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-
-  .tag-free { background: rgba(52, 211, 153, 0.85); color: #000; }
-  .tag-paid { background: rgba(245, 158, 11, 0.85); color: #000; }
-
-  .course-body { padding: 24px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-  .card-heading { font-size: 18px; font-weight: 700; margin: 0 0 10px; line-height: 1.4; color: var(--text-main); }
-  .card-desc { font-size: 14px; color: var(--text-muted); margin: 0 0 20px; line-height: 1.6; }
-
-  .card-foot {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 16px;
-    border-top: 1px solid var(--border-subtle);
-  }
-
-  .card-foot-meta { font-size: 12px; color: var(--text-dim); font-weight: 600; }
-  .card-action { color: var(--brand-teal); font-weight: 700; font-size: 13px; text-decoration: none; }
-  .card-action:hover { text-decoration: underline; }
-
-  /* BUTTON STYLES */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px 24px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .btn-teal { background: var(--brand-teal); color: #fff; }
-  .btn-teal:hover { opacity: 0.9; transform: translateY(-1px); }
-
-  .btn-outline {
-    background: transparent;
-    border: 1px solid var(--border-subtle);
-    color: var(--text-main);
-  }
-  .btn-outline:hover { border-color: var(--border-hover); background: var(--bg-glass); }
-  .btn-full { width: 100%; }
-
-  /* ACCORDION FAQ */
-  .accordion-wrap { display: flex; flex-direction: column; gap: 12px; max-width: 840px; margin-inline: auto; }
-  .accordion-node { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 12px; overflow: hidden; }
-  .accordion-node.active { border-color: var(--border-hover); }
-
-  .accordion-trigger {
-    width: 100%;
-    padding: 20px 24px;
-    background: transparent;
-    border: none;
-    color: var(--text-main);
-    font-size: 16px;
-    font-weight: 600;
-    text-align: inherit;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-  }
-
-  .accordion-icon {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--bg-glass);
-    display: grid;
-    place-items: center;
-    font-size: 14px;
-    transition: transform 0.2s ease;
-  }
-
-  .accordion-node.active .accordion-icon { transform: rotate(45deg); }
-  .accordion-body { padding: 0 24px 20px; font-size: 14px; color: var(--text-muted); line-height: 1.7; display: none; }
-  .accordion-node.active .accordion-body { display: block; }
-
-  /* FOOTER */
-  footer {
-    border-top: 1px solid var(--border-subtle);
-    padding-block: 48px;
-    background: var(--footer-bg);
-  }
-
-  .footer-grid { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--text-dim); }
-  .footer-links { display: flex; gap: 24px; }
-  .footer-links a { color: var(--text-muted); text-decoration: none; }
-  .footer-links a:hover { color: var(--brand-teal); }
-
-  @media (max-width: 900px) {
-    .profile-grid { grid-template-columns: 1fr; gap: 40px; }
-    .booking-grid, .grid-3 { grid-template-columns: 1fr; }
-    .section-title-wrap { flex-direction: column; align-items: flex-start; gap: 16px; }
-    .wa-banner { flex-direction: column; gap: 16px; align-items: flex-start; }
-    nav { display: none; }
-    .footer-grid { flex-direction: column; gap: 20px; align-items: flex-start; }
-  }
-</style>
-</head>
-<body dir="ltr">
-
-<div class="glow-bg"></div>
-
-<!-- NAVIGATION -->
-<header>
-  <div class="container nav-row">
-    <a href="#" class="brand-logo">
-      <span class="brand-mark">N</span>
-      <span data-i18n="brand">Nazdar</span>
-    </a>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nazdar - منصة التدريب النفسي والتطوير</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  
+  <style>
+    :root { font-family: 'Alexandria', sans-serif; }
+    .font-ltr { font-family: 'Plus Jakarta Sans', sans-serif; }
+    * { transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #141715; }
+    ::-webkit-scrollbar-thumb { background: #d97757; border-radius: 9999px; }
     
-    <nav>
-      <a href="#about" data-i18n="navAbout">About Nazdar</a>
-      <a href="#consultations" data-i18n="navConsultations">Book Session</a>
-      <a href="#courses" data-i18n="navCourses">Courses Library</a>
-      <a href="#faq" data-i18n="navFaq">FAQ</a>
-    </nav>
+    .glass-card {
+      background: rgba(28, 33, 30, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-card:hover {
+      border-color: rgba(217, 119, 87, 0.4);
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body class="bg-[#141715] text-[#e5e7e5] min-h-screen flex flex-col antialiased selection:bg-[#d97757] selection:text-white">
 
-    <div class="controls-group">
-      <!-- Dark / Light Mode Toggle -->
-      <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
-        <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+  <header class="w-full px-6 py-4 flex items-center justify-between border-b border-white/10 bg-[#141715]/80 backdrop-blur-xl sticky top-0 z-40">
+    <div class="flex items-center space-x-3 rtl:space-x-reverse">
+      <button onclick="toggleDrawer('mobile-menu')" class="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-stone-200 transition-colors active:scale-95 border border-white/5" aria-label="Menu">
+        <i data-lucide="menu" class="w-5 h-5"></i>
       </button>
 
-      <!-- Language Switcher -->
-      <div class="lang-picker" id="langPicker">
-        <button class="lang-btn active" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="ar">عربي</button>
-        <button class="lang-btn" data-lang="kubd">بادینی</button>
-        <button class="lang-btn" data-lang="kuso">سۆرانی</button>
+      <div class="relative">
+        <button onclick="toggleDrawer('cart-drawer')" class="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-stone-200 transition-colors active:scale-95 border border-white/5" aria-label="Cart">
+          <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+        </button>
+        <span class="absolute -top-1 -right-1 rtl:-left-1 rtl:right-auto bg-[#d97757] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-lg">
+          2
+        </span>
+      </div>
+
+      <button onclick="toggleModal('login-modal')" class="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-stone-200 transition-colors active:scale-95 border border-white/5" aria-label="Account">
+        <i data-lucide="user" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <div class="flex items-center space-x-2 rtl:space-x-reverse">
+      <div class="w-3 h-3 rounded-full bg-[#d97757] animate-pulse"></div>
+      <span class="text-2xl font-black tracking-wider text-white" id="brand-name">نَزْدَار</span>
+    </div>
+
+    <div class="relative group">
+      <button class="flex items-center space-x-2 rtl:space-x-reverse px-4 py-2 rounded-xl bg-[#d97757] text-white text-xs font-semibold hover:bg-[#c26243] shadow-lg shadow-[#d97757]/20 transition-all active:scale-95">
+        <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+        <span id="current-lang-label">العربية</span>
+      </button>
+
+      <div class="absolute right-0 rtl:right-auto rtl:left-0 mt-3 w-48 bg-[#1c211e] border border-white/10 rounded-2xl shadow-2xl hidden group-hover:block py-2 z-50 backdrop-blur-2xl">
+        <button onclick="setLanguage('en')" class="w-full text-left rtl:text-right px-4 py-2.5 text-xs text-stone-300 hover:bg-[#d97757] hover:text-white font-medium flex items-center justify-between">English (EN)</button>
+        <button onclick="setLanguage('ar')" class="w-full text-left rtl:text-right px-4 py-2.5 text-xs text-stone-300 hover:bg-[#d97757] hover:text-white font-medium flex items-center justify-between">العربية (AR)</button>
+        <button onclick="setLanguage('kr_badini')" class="w-full text-left rtl:text-right px-4 py-2.5 text-xs text-stone-300 hover:bg-[#d97757] hover:text-white font-medium flex items-center justify-between">كوردى (بادينى)</button>
+        <button onclick="setLanguage('kr_sorani')" class="w-full text-left rtl:text-right px-4 py-2.5 text-xs text-stone-300 hover:bg-[#d97757] hover:text-white font-medium flex items-center justify-between">کوردی (سۆرانی)</button>
       </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<main>
+  <main class="flex-grow max-w-5xl mx-auto w-full px-6 py-10 space-y-24">
 
-  <!-- 1. TOP SECTION: ABOUT NAZDAR & PROFILE PHOTO -->
-  <section class="profile-hero" id="about">
-    <div class="container profile-grid">
+    <section class="flex flex-col items-center text-center space-y-8 pt-4">
       
-      <div class="profile-img-frame">
-        <div class="profile-img-wrapper">
-          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop" alt="Nazdar - Licensed Clinical Psychologist">
-        </div>
-        <div class="experience-badge">
-          <span class="badge-num" data-i18n="expYears">10+ Years</span>
-          <span class="badge-txt" data-i18n="expLabel">Clinical Practice</span>
-        </div>
+     
+
+      <h1 id="hero-title" class="text-4xl sm:text-6xl font-black text-white leading-tight max-w-2xl tracking-tight">
+        بوابتك إلى التشافي والسلام الداخلي..
+      </h1>
+
+      <p id="hero-subtitle" class="text-xs sm:text-sm text-stone-400 max-w-lg leading-relaxed font-normal">
+        جلسات استشارية فردية وجماعية، ودورات مسجلة ومباشرة في التوازن النفسي والنمو العاطفي بإشراف نخبة من الأخصائيين.
+      </p>
+
+      <div class="w-full max-w-md space-y-3.5 pt-2">
+        <button id="btn-appointment" onclick="openBookingDrawer('استشارة عامة')" class="block w-full py-4 px-6 rounded-2xl bg-[#d97757] text-white font-bold text-sm shadow-xl shadow-[#d97757]/25 hover:bg-[#c26243] hover:shadow-2xl active:scale-[0.98] transition-all">
+          احجز استشارتك الان
+        </button>
+        <a id="btn-courses" href="#courses" class="block w-full py-4 px-6 rounded-2xl bg-white/5 hover:bg-white/10 text-stone-200 font-bold text-sm border border-white/10 backdrop-blur-md active:scale-[0.98] transition-all">
+          تصفح مكتبة الدورات
+        </a>
       </div>
 
-      <div class="profile-content">
-        <div class="badge-tag" data-i18n="eyebrow">Licensed Clinical Psychologist & Educator</div>
-        <h1 data-i18n="heroName">Nazdar</h1>
-        <div class="profile-title" data-i18n="heroTitle">Specialist in Attachment Theory, Complex Trauma & Relational Healing</div>
+      <div class="w-full mt-4 relative flex justify-center items-end">
+        <div class="relative w-72 h-80 sm:w-96 sm:h-[420px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+          <img 
+            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800" 
+            alt="Psychology Trainer" 
+            class="w-full h-full object-cover object-top"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#141715] via-transparent to-transparent opacity-90"></div>
+          <div class="absolute bottom-6 left-6 right-6 text-center space-y-1">
+            <p class="text-white font-bold text-base">د. نازدار علي</p>
+            <p class="text-stone-400 text-xs">استشارية الصحة النفسية والعلاقات</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="glass-card p-6 rounded-2xl text-center space-y-1">
+        <p class="text-3xl font-black text-[#d97757]">+12,000</p>
+        <p id="stat-1" class="text-xs font-medium text-stone-400">مستفيد ومستفيدة</p>
+      </div>
+      <div class="glass-card p-6 rounded-2xl text-center space-y-1">
+        <p class="text-3xl font-black text-[#d97757]">14+</p>
+        <p id="stat-2" class="text-xs font-medium text-stone-400">سنوات خبرة</p>
+      </div>
+      <div class="glass-card p-6 rounded-2xl text-center space-y-1">
+        <p class="text-3xl font-black text-[#d97757]">30+</p>
+        <p id="stat-3" class="text-xs font-medium text-stone-400">دورة تدريبية</p>
+      </div>
+      <div class="glass-card p-6 rounded-2xl text-center space-y-1">
+        <p class="text-3xl font-black text-[#d97757]">99%</p>
+        <p id="stat-4" class="text-xs font-medium text-stone-400">نسبة التقييم الإيجابي</p>
+      </div>
+    </section>
+
+    <section id="courses" class="space-y-8 pt-6">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+        <div class="space-y-2">
+          <h2 id="section-courses-title" class="text-3xl font-extrabold text-white">مكتبة المواد والدورات</h2>
+          <p id="section-courses-desc" class="text-xs sm:text-sm text-stone-400">دورات متخصصة ومصممة بعناية لمساعدتك في رحلة النمو والشغف</p>
+        </div>
         
-        <p class="profile-bio" data-i18n="heroBio">
-          Welcome to a safe, evidence-based space for personal transformation. With over a decade of clinical experience, I help individuals and couples navigate trauma recovery, overcome relational anxiety, and build deeply secure bonds. Services are provided fluently across English, Arabic, Badini, and Sorani.
-        </p>
-
-        <div class="credentials-list">
-          <div class="credential-chip">
-            <svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-            <span data-i18n="cred1">Licensed Clinical Practice</span>
-          </div>
-          <div class="credential-chip">
-            <svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-            <span data-i18n="cred2">Certified Trauma Specialist</span>
-          </div>
-          <div class="credential-chip">
-            <svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-            <span data-i18n="cred3">4-Language Fluency</span>
-          </div>
-        </div>
-
-        <div class="hero-ctas">
-          <a href="#consultations" class="btn btn-teal" data-i18n="btnBookHero">Book a Session</a>
-          <a href="#courses" class="btn btn-outline" data-i18n="btnExploreCourses">Explore Library</a>
+        <div class="flex items-center bg-white/5 p-1.5 rounded-2xl border border-white/10 text-xs font-semibold backdrop-blur-md">
+          <button id="filter-all" onclick="filterCourses('all')" class="px-4 py-2 bg-[#d97757] text-white rounded-xl shadow-md">الكل</button>
+          <button id="filter-free" onclick="filterCourses('free')" class="px-4 py-2 text-stone-400 hover:text-white">مجاني</button>
+          <button id="filter-paid" onclick="filterCourses('paid')" class="px-4 py-2 text-stone-400 hover:text-white">مدفوع</button>
         </div>
       </div>
 
-    </div>
-  </section>
-
-
-  <!-- 2. SECOND SECTION: BOOKINGS -->
-  <section class="section" id="consultations" style="background: var(--bg-glass); border-block: 1px solid var(--border-subtle);">
-    <div class="container">
-      <div class="section-title-wrap centered">
-        <h2 data-i18n="bookSectionTitle">1-on-1 Confidential Consultations</h2>
-        <p data-i18n="bookSectionSub">Direct, encrypted virtual sessions tailored to your individual emotional journey and growth.</p>
-      </div>
-
-      <div class="booking-grid">
-        <div class="booking-card">
-          <div>
-            <div class="b-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            </div>
-            <h3 data-i18n="sessionIndividual">Individual Session</h3>
-            <span class="meta" data-i18n="metaIndividual">50 Minutes · Private Video</span>
-            <p data-i18n="descIndividual">Comprehensive 1-on-1 consultation focused on personal trauma recovery, anxiety regulation, and emotional processing.</p>
-          </div>
-          <a href="#" class="btn btn-teal btn-full" data-i18n="btnBookNow">Schedule Session</a>
-        </div>
-
-        <div class="booking-card featured">
-          <span class="card-badge" data-i18n="badgePopular">Popular Choice</span>
-          <div>
-            <div class="b-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-3-3.87"></path><path d="M9 21v-2a4 4 0 0 1 3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path><circle cx="9" cy="7" r="4"></circle></svg>
-            </div>
-            <h3 data-i18n="sessionCouples">Couples Therapy</h3>
-            <span class="meta" data-i18n="metaCouples">75 Minutes · Joint Assessment</span>
-            <p data-i18n="descCouples">Targeted relational coaching to resolve recurring communication conflicts, break attachment anxiety, and rebuild intimacy.</p>
-          </div>
-          <a href="#" class="btn btn-teal btn-full" data-i18n="btnBookNow">Schedule Session</a>
-        </div>
-
-        <div class="booking-card">
-          <div>
-            <div class="b-icon" style="color: var(--brand-warm);">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            </div>
-            <h3 data-i18n="sessionUrgent">Urgent Priority Session</h3>
-            <span class="meta" style="color: var(--brand-warm);" data-i18n="metaUrgent">Guaranteed within 24–48 hours</span>
-            <p data-i18n="descUrgent">Fast-track booking for acute distress, sudden relationship crises, or urgent emotional grounding support.</p>
-          </div>
-          <a href="#" class="btn btn-outline btn-full" data-i18n="btnBookNow">Schedule Session</a>
-        </div>
-      </div>
-
-      <div class="wa-banner">
-        <div>
-          <strong style="color: var(--text-main); font-size: 15px;" data-i18n="waTitle">Need custom scheduling or corporate consulting?</strong>
-          <p style="margin: 2px 0 0; font-size: 13px; color: var(--text-muted);" data-i18n="waSub">Contact our intake coordinator directly for special scheduling requests.</p>
-        </div>
-        <a href="https://wa.me/0097338777445" target="_blank" rel="noopener" class="btn btn-outline" style="border-color: var(--brand-teal); color: var(--brand-teal);" data-i18n="waBtn">WhatsApp Support (+973 3877 7445)</a>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- 3. THIRD SECTION: COURSES LIBRARY (ALL WITH IMAGES) -->
-  <section class="section" id="courses">
-    <div class="container">
-      <div class="section-title-wrap">
-        <div>
-          <h2 data-i18n="catalogTitle">Educational Courses Library</h2>
-          <p data-i18n="catalogSub">Self-paced video modules, guided audio exercises, and clinical digital toolkits.</p>
-        </div>
-        <div class="filter-bar" id="filterBar">
-          <button class="filter-btn active" data-filter="all" data-i18n="filterAll">All Resources</button>
-          <button class="filter-btn" data-filter="free" data-i18n="filterFree">Free</button>
-          <button class="filter-btn" data-filter="paid" data-i18n="filterPaid">Premium</button>
-        </div>
-      </div>
-
-      <div class="grid-3" id="courseGrid">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="courses-grid">
         
-        <!-- Course 1 -->
-        <div class="course-card" data-tier="free">
-          <div class="course-thumb">
-            <img src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=600&auto=format&fit=crop" alt="Relationship Detox">
-            <span class="card-tag tag-free" data-i18n="badgeFree">Free Audio</span>
+        <div class="course-card paid glass-card rounded-3xl overflow-hidden flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="relative h-48 w-full overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600" 
+                alt="CBT Basics" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#1c211e] via-transparent to-transparent opacity-80"></div>
+              <span id="course-1-badge" class="absolute top-3 right-3 rtl:left-auto rtl:right-3 ltr:left-3 ltr:right-auto bg-[#d97757] text-white text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
+                دورة مسجلة
+              </span>
+            </div>
+
+            <div class="p-6 space-y-3">
+              <div class="flex items-center space-x-1 rtl:space-x-reverse text-amber-400 text-xs">
+                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                <span class="font-bold">4.9</span>
+                <span class="text-stone-500">(142 تقييم)</span>
+              </div>
+              <h3 id="course-1-title" class="font-bold text-lg text-white group-hover:text-[#d97757] transition-colors">أساسيات العلاج المعرفي السلوكي</h3>
+              <p class="text-xs text-stone-400 leading-relaxed">تعلم أدوات التعامل مع الأفكار السلبية وقواعد إعادة البناء المعرفي.</p>
+            </div>
           </div>
-          <div class="course-body">
-            <div>
-              <h3 class="card-heading" data-i18n="course1Title">Relationship Detox & Emotional Release</h3>
-              <p class="card-desc" data-i18n="course1Desc">A guided audio session focused on releasing residual pain and establishing psychological safety after difficult relationship cycles.</p>
-            </div>
-            <div class="card-foot">
-              <span class="card-foot-meta" data-i18n="stat1">30 min</span>
-              <a href="#" class="card-action" data-i18n="listenNow">Listen Now →</a>
-            </div>
+
+          <div class="p-6 pt-0 flex justify-between items-center border-t border-white/5 mt-4">
+            <span id="course-1-price" class="text-xl font-extrabold text-[#d97757]">$120</span>
+            <button id="course-1-btn" onclick="openCourseModal('أساسيات العلاج المعرفي السلوكي', '$120')" class="px-4 py-2.5 bg-white/10 hover:bg-[#d97757] text-white text-xs font-bold rounded-xl border border-white/10 transition-all">
+              معاينة الشراء
+            </button>
           </div>
         </div>
 
-        <!-- Course 2 -->
-        <div class="course-card" data-tier="paid">
-          <div class="course-thumb">
-            <img src="https://images.unsplash.com/photo-1499209974431-9dac3ada00d7?q=80&w=600&auto=format&fit=crop" alt="Healing Childhood Trauma">
-            <span class="card-tag tag-paid" data-i18n="badgePaid">Paid Course</span>
+        <div class="course-card free glass-card rounded-3xl overflow-hidden flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="relative h-48 w-full overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=600" 
+                alt="Psychological First Aid" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#1c211e] via-transparent to-transparent opacity-80"></div>
+              <span id="course-2-badge" class="absolute top-3 right-3 rtl:left-auto rtl:right-3 ltr:left-3 ltr:right-auto bg-emerald-600 text-white text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
+                دورة مجانية
+              </span>
+            </div>
+
+            <div class="p-6 space-y-3">
+              <div class="flex items-center space-x-1 rtl:space-x-reverse text-amber-400 text-xs">
+                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                <span class="font-bold">4.8</span>
+                <span class="text-stone-500">(98 تقييم)</span>
+              </div>
+              <h3 id="course-2-title" class="font-bold text-lg text-white group-hover:text-[#d97757] transition-colors">مدخل إلى الإسعافات النفسية الأولى</h3>
+              <p class="text-xs text-stone-400 leading-relaxed">دليل عملي لدعم الأفراد في أوقات الأزمات والأنفعالات الحادة.</p>
+            </div>
           </div>
-          <div class="course-body">
-            <div>
-              <h3 class="card-heading" data-i18n="course2Title">Healing Childhood Trauma & Unconscious Attachment</h3>
-              <p class="card-desc" data-i18n="course2Desc">A multi-module practical course designed to identify deep-seated trauma patterns and rebuild internal security.</p>
-            </div>
-            <div class="card-foot">
-              <span class="card-foot-meta" data-i18n="stat2">4 Modules · 12 Lessons</span>
-              <a href="#" class="card-action" data-i18n="contactEnroll">Enroll →</a>
-            </div>
+
+          <div class="p-6 pt-0 flex justify-between items-center border-t border-white/5 mt-4">
+            <span id="course-2-price" class="text-xl font-extrabold text-emerald-400">مجاناً</span>
+            <button id="course-2-btn" onclick="openCourseModal('مدخل إلى الإسعافات النفسية الأولى', 'مجاناً')" class="px-4 py-2.5 bg-white/10 hover:bg-[#d97757] text-white text-xs font-bold rounded-xl border border-white/10 transition-all">
+              مشاهدة الآن
+            </button>
           </div>
         </div>
 
-        <!-- Course 3 -->
-        <div class="course-card" data-tier="paid">
-          <div class="course-thumb">
-            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop" alt="Emotional Manipulation">
-            <span class="card-tag tag-paid" data-i18n="badgePaid">Paid Course</span>
-          </div>
-          <div class="course-body">
-            <div>
-              <h3 class="card-heading" data-i18n="course3Title">Recognizing Emotional Manipulation</h3>
-              <p class="card-desc" data-i18n="course3Desc">Practical tools to detect subtle control tactics in partner or family dynamics and establish clear personal boundaries.</p>
+        <div class="course-card paid glass-card rounded-3xl overflow-hidden flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="relative h-48 w-full overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=600" 
+                alt="Emotional Healing" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#1c211e] via-transparent to-transparent opacity-80"></div>
+              <span class="absolute top-3 right-3 rtl:left-auto rtl:right-3 ltr:left-3 ltr:right-auto bg-[#d97757] text-white text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
+                ورشة مسجلة
+              </span>
             </div>
-            <div class="card-foot">
-              <span class="card-foot-meta" data-i18n="stat3">2h 15m total</span>
-              <a href="#" class="card-action" data-i18n="contactEnroll">Enroll →</a>
-            </div>
-          </div>
-        </div>
 
-        <!-- Course 4 -->
-        <div class="course-card" data-tier="free">
-          <div class="course-thumb">
-            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=600&auto=format&fit=crop" alt="Anxiety Starter Kit">
-            <span class="card-tag tag-free" data-i18n="badgeFree">Free PDF</span>
-          </div>
-          <div class="course-body">
-            <div>
-              <h3 class="card-heading" data-i18n="course4Title">Anxiety Regulation Starter Kit</h3>
-              <p class="card-desc" data-i18n="course4Desc">Immediate coping tools, grounding techniques, and symptom logs for managing high anxiety periods.</p>
-            </div>
-            <div class="card-foot">
-              <span class="card-foot-meta" data-i18n="stat4">Download</span>
-              <a href="#" class="card-action" data-i18n="downloadNow">Download →</a>
+            <div class="p-6 space-y-3">
+              <div class="flex items-center space-x-1 rtl:space-x-reverse text-amber-400 text-xs">
+                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                <span class="font-bold">5.0</span>
+                <span class="text-stone-500">(210 تقييم)</span>
+              </div>
+              <h3 class="font-bold text-lg text-white group-hover:text-[#d97757] transition-colors">فن التشافي الذاتي والعلاقات</h3>
+              <p class="text-xs text-stone-400 leading-relaxed">خطوات تطبيقة للتحرر من صدمات الماضي وبناء علاقات متوازنة.</p>
             </div>
           </div>
-        </div>
 
-        <!-- Course 5 -->
-        <div class="course-card" data-tier="paid">
-          <div class="course-thumb">
-            <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=600&auto=format&fit=crop" alt="CBT Overthinking">
-            <span class="card-tag tag-paid" data-i18n="badgePaid">Paid Course</span>
-          </div>
-          <div class="course-body">
-            <div>
-              <h3 class="card-heading" data-i18n="course5Title">CBT for Overthinking & Rumination</h3>
-              <p class="card-desc" data-i18n="course5Desc">Step-by-step cognitive restructuring techniques to stop repetitive intrusive thoughts and mental fatigue.</p>
-            </div>
-            <div class="card-foot">
-              <span class="card-foot-meta" data-i18n="stat5">3 Modules · 8 Lessons</span>
-              <a href="#" class="card-action" data-i18n="contactEnroll">Enroll →</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Course 6 -->
-        <div class="course-card" data-tier="free">
-          <div class="course-thumb">
-            <img src="https://images.unsplash.com/photo-1476703993599-0035a21b17a9?q=80&w=600&auto=format&fit=crop" alt="Parent Child Boundaries">
-            <span class="card-tag tag-free" data-i18n="badgeFree">Free Lecture</span>
-          </div>
-          <div class="course-body">
-            <div>
-              <h3 class="card-heading" data-i18n="course6Title">Understanding Parent-Child Boundaries</h3>
-              <p class="card-desc" data-i18n="course6Desc">Educational insights for parents on fostering emotional independence without breaking connection.</p>
-            </div>
-            <div class="card-foot">
-              <span class="card-foot-meta" data-i18n="stat6">45 min</span>
-              <a href="#" class="card-action" data-i18n="watchNow">Watch Now →</a>
-            </div>
+          <div class="p-6 pt-0 flex justify-between items-center border-t border-white/5 mt-4">
+            <span class="text-xl font-extrabold text-[#d97757]">$95</span>
+            <button onclick="openCourseModal('فن التشافي الذاتي والعلاقات', '$95')" class="px-4 py-2.5 bg-white/10 hover:bg-[#d97757] text-white text-xs font-bold rounded-xl border border-white/10 transition-all">
+              معاينة الشراء
+            </button>
           </div>
         </div>
 
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FAQ SECTION -->
-  <section class="section" id="faq" style="background: var(--bg-glass); border-top: 1px solid var(--border-subtle);">
-    <div class="container">
-      <div style="text-align: center; margin-bottom: 48px;">
-        <h2 data-i18n="faqTitle" style="font-size: 28px; font-weight: 700; margin-bottom: 8px;">Frequently Asked Questions</h2>
-        <p data-i18n="faqSub" style="color: var(--text-muted);">Key information on confidential consultations, language fluency, and course enrollment.</p>
+    <section id="appointments" class="space-y-8 pt-8 border-t border-white/10">
+      <div class="text-center space-y-2">
+        <h2 id="section-appointments-title" class="text-3xl font-extrabold text-white">أنواع الاستشارات</h2>
+        <p id="section-appointments-desc" class="text-xs sm:text-sm text-stone-400 max-w-sm mx-auto">اختر نوع الاستشارة المناسب لاحتياجاتك النفسية والنمو الشخصي</p>
       </div>
 
-      <div class="accordion-wrap" id="faqAccordion">
-        <div class="accordion-node">
-          <button class="accordion-trigger">
-            <span data-i18n="faq1Q">How are confidential video sessions conducted?</span>
-            <span class="accordion-icon">+</span>
-          </button>
-          <div class="accordion-body" data-i18n="faq1A">
-            Sessions are held securely via encrypted video links. Once your appointment is confirmed, you will receive a direct email and WhatsApp notification with your access link and prep notes.
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass-card p-7 rounded-3xl space-y-6 flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <span id="app-1-tag" class="text-[10px] bg-[#d97757] text-white px-3 py-1 rounded-full font-bold">50 دقيقة</span>
+              <span class="text-sm font-black text-[#d97757]">$80</span>
+            </div>
+            <h3 id="app-1-title" class="font-bold text-xl text-white">جلسة علاج فردي</h3>
+            <p id="app-1-desc" class="text-xs text-stone-400 leading-relaxed">جلسة استشارية مغلقة ومحمية بالكامل للتعامل مع القلق والتحديات العاطفية.</p>
           </div>
+          <button id="app-1-btn" onclick="openBookingDrawer('جلسة علاج فردي')" class="w-full py-3 bg-[#d97757] hover:bg-[#c26243] text-white text-xs rounded-xl font-bold shadow-lg transition-all">احجز الآن</button>
         </div>
 
-        <div class="accordion-node">
-          <button class="accordion-trigger">
-            <span data-i18n="faq2Q">Which languages can I conduct my session in?</span>
-            <span class="accordion-icon">+</span>
-          </button>
-          <div class="accordion-body" data-i18n="faq2A">
-            Nazdar provides clinical consultations and courses fluently in English, Arabic, Kurdish Badini, and Kurdish Sorani. You can select your preferred language during registration.
+        <div class="glass-card p-7 rounded-3xl space-y-6 flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <span id="app-2-tag" class="text-[10px] bg-[#d97757] text-white px-3 py-1 rounded-full font-bold">60 دقيقة</span>
+              <span class="text-sm font-black text-[#d97757]">$110</span>
+            </div>
+            <h3 id="app-2-title" class="font-bold text-xl text-white">الإشراف المهني</h3>
+            <p id="app-2-desc" class="text-xs text-stone-400 leading-relaxed">توجيه وإشراف إكلينيكي وتطبيقي للأخصائيين والمعالجين الجدد.</p>
           </div>
+          <button id="app-2-btn" onclick="openBookingDrawer('الإشراف المهني')" class="w-full py-3 bg-[#d97757] hover:bg-[#c26243] text-white text-xs rounded-xl font-bold shadow-lg transition-all">احجز الآن</button>
         </div>
 
-        <div class="accordion-node">
-          <button class="accordion-trigger">
-            <span data-i18n="faq3Q">What is the policy for cancellations or rescheduling?</span>
-            <span class="accordion-icon">+</span>
+        <div class="glass-card p-7 rounded-3xl space-y-6 flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <span id="app-3-tag" class="text-[10px] bg-[#d97757] text-white px-3 py-1 rounded-full font-bold">90 دقيقة</span>
+              <span class="text-sm font-black text-[#d97757]">$45</span>
+            </div>
+            <h3 id="app-3-title" class="font-bold text-xl text-white">ورشة عمل جماعية</h3>
+            <p id="app-3-desc" class="text-xs text-stone-400 leading-relaxed">جلسة تفاعلية مباشرة ومجموعات دعم حول مهارات التشافي والعلاقات.</p>
+          </div>
+          <button id="app-3-btn" onclick="openBookingDrawer('ورشة عمل جماعية')" class="w-full py-3 bg-[#d97757] hover:bg-[#c26243] text-white text-xs rounded-xl font-bold shadow-lg transition-all">احجز الآن</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-[#101211] text-stone-400 py-12 text-xs border-t border-white/10 mt-16">
+    <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-6">
+      <div class="text-center sm:rtl:text-right sm:ltr:text-left space-y-1">
+        <p id="footer-contact-title" class="font-bold text-white text-sm">التواصل والمعلومات</p>
+        <p id="footer-contact-desc" class="text-stone-500">support@nazdar-platform.com</p>
+      </div>
+      <div id="footer-powered" class="text-stone-400 font-medium bg-white/5 px-4 py-2 rounded-full border border-white/10">منصة نَزْدَار © 2026</div>
+    </div>
+  </footer>
+
+  <div id="booking-drawer" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-md flex justify-end">
+    <div class="w-full max-w-md bg-[#1c211e] border-l border-white/10 h-full p-8 space-y-6 overflow-y-auto shadow-2xl flex flex-col justify-between text-white">
+      <div class="space-y-6">
+        <div class="flex justify-between items-center border-b border-white/10 pb-4">
+          <h3 id="booking-drawer-title" class="font-bold text-xl text-white">حجز استشارة</h3>
+          <button onclick="toggleDrawer('booking-drawer')" class="p-1 text-stone-400 hover:text-white">
+            <i data-lucide="x" class="w-6 h-6"></i>
           </button>
-          <div class="accordion-body" data-i18n="faq3A">
-            Consultations can be rescheduled up to 24 hours prior to the session time via your confirmation link without penalty.
+        </div>
+
+        <div class="space-y-4 text-xs">
+          <div>
+            <label class="block font-bold text-stone-300 mb-2">نوع الجلسة المحدد</label>
+            <input type="text" id="booking-session-type" readonly class="w-full p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-[#d97757]">
+          </div>
+
+          <div>
+            <label class="block font-bold text-stone-300 mb-2">الاسم الكامل</label>
+            <input type="text" placeholder="أدخل اسمك الكريم" class="w-full p-3.5 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:border-[#d97757] text-white">
+          </div>
+
+          <div>
+            <label class="block font-bold text-stone-300 mb-2">البريد الإلكتروني / رقم الهاتف</label>
+            <input type="text" placeholder="example@email.com" class="w-full p-3.5 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:border-[#d97757] text-white">
+          </div>
+
+          <div>
+            <label class="block font-bold text-stone-300 mb-2">اختر الموعد المناسب</label>
+            <input type="date" class="w-full p-3.5 rounded-xl bg-white/5 border border-white/10 focus:outline-none focus:border-[#d97757] text-white">
           </div>
         </div>
       </div>
-    </div>
-  </section>
-</main>
 
-<footer>
-  <div class="container footer-grid">
-    <div>
-      <strong style="color: var(--text-main);" data-i18n="brand">Nazdar</strong> — <span data-i18n="footerAbout">Private Consultations & Psychological Education</span>
-    </div>
-    <div class="footer-links">
-      <a href="#about" data-i18n="navAbout">About Nazdar</a>
-      <a href="#consultations" data-i18n="navConsultations">Consultations</a>
-      <a href="#courses" data-i18n="navCourses">Courses</a>
-      <a href="https://wa.me/0097338777445" target="_blank" rel="noopener" data-i18n="footerContact">WhatsApp Support</a>
+      <button onclick="alert('تم استلام طلب الحجز بنجاح، سنتواصل معك تأكيد الموعد.')" class="w-full py-4 bg-[#d97757] hover:bg-[#c26243] text-white font-bold text-sm rounded-xl shadow-lg transition-all">
+        تأكيد الموعد الان
+      </button>
     </div>
   </div>
-</footer>
 
-<script>
-const dict = {
-  en: {
-    dir: 'ltr', brand: 'Nazdar', navAbout: 'About Nazdar', navConsultations: 'Book Session', navCourses: 'Courses Library', navFaq: 'FAQ',
-    eyebrow: 'Licensed Clinical Psychologist & Educator',
-    heroName: 'Nazdar',
-    heroTitle: 'Specialist in Attachment Theory, Complex Trauma & Relational Healing',
-    heroBio: 'Welcome to a safe, evidence-based space for personal transformation. With over a decade of clinical experience, I help individuals and couples navigate trauma recovery, overcome relational anxiety, and build deeply secure bonds. Services are provided fluently across English, Arabic, Badini, and Sorani.',
-    expYears: '10+ Years', expLabel: 'Clinical Practice',
-    cred1: 'Licensed Clinical Practice', cred2: 'Certified Trauma Specialist', cred3: '4-Language Fluency',
-    btnBookHero: 'Book a Session', btnExploreCourses: 'Explore Library',
+  <div id="course-modal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-[#1c211e] p-7 rounded-3xl space-y-6 border border-white/10 shadow-2xl text-white">
+      <div class="flex justify-between items-center border-b border-white/10 pb-4">
+        <h3 id="modal-course-title" class="font-bold text-xl">عنوان الدورة</h3>
+        <button onclick="toggleModal('course-modal')" class="p-1 text-stone-400 hover:text-white">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+      <p id="modal-course-price" class="text-2xl font-black text-[#d97757]">$0</p>
+      <p class="text-xs text-stone-400 leading-relaxed">
+        تحتوي هذه الدورة على فصول فيديو مسجلة مع ملفات تطبيقية واختبارات قياسية معتمدة من المنصة.
+      </p>
+      <button onclick="alert('تمت الإضافة إلى السلة!')" class="w-full py-3.5 bg-[#d97757] hover:bg-[#c26243] text-white text-xs font-bold rounded-xl shadow-lg">
+        متابعة الشراء
+      </button>
+    </div>
+  </div>
 
-    bookSectionTitle: '1-on-1 Confidential Consultations',
-    bookSectionSub: 'Direct, encrypted virtual sessions tailored to your individual emotional journey and growth.',
-    sessionIndividual: 'Individual Session', metaIndividual: '50 Minutes · Private Video', descIndividual: 'Comprehensive 1-on-1 consultation focused on personal trauma recovery, anxiety regulation, and emotional processing.',
-    sessionCouples: 'Couples Therapy', metaCouples: '75 Minutes · Joint Assessment', descCouples: 'Targeted relational coaching to resolve recurring communication conflicts, break attachment anxiety, and rebuild intimacy.', badgePopular: 'Popular Choice',
-    sessionUrgent: 'Urgent Priority Session', metaUrgent: 'Guaranteed within 24–48 hours', descUrgent: 'Fast-track booking for acute distress, sudden relationship crises, or urgent emotional grounding support.',
-    btnBookNow: 'Schedule Session',
-    waTitle: 'Need custom scheduling or corporate consulting?', waSub: 'Contact our intake coordinator directly for special scheduling requests.', waBtn: 'WhatsApp Support (+973 3877 7445)',
+  <script>
+    const translations = {
+      ar: {
+        dir: 'rtl',
+        langLabel: 'العربية',
+        fontClass: '',
+        brandName: 'نَزْدَار',
+        heroTitle: 'بوابتك إلى التشافي والسلام الداخلي..',
+        heroSubtitle: 'جلسات استشارية فردية وجماعية، ودورات مسجلة ومباشرة في التوازن النفسي والنمو العاطفي بإشراف نخبة من الأخصائيين.',
+        btnAppointment: 'احجز استشارتك الان',
+        btnCourses: 'تصفح مكتبة الدورات',
+        retreatBanner: 'رتريت العلاقات الواعية في مملكة البحرين',
+        stat1: 'مستفيد ومستفيدة', stat2: 'سنوات خبرة', stat3: 'دورة تدريبية', stat4: 'نسبة التقييم الإيجابي',
+        secAppTitle: 'أنواع الاستشارات',
+        secAppDesc: 'اختر نوع الاستشارة المناسب لاحتياجاتك النفسية والنمو الشخصي',
+        app1Tag: '50 دقيقة', app1Title: 'جلسة علاج فردي', app1Desc: 'جلسة استشارية مغلقة ومحمية بالكامل للتعامل مع القلق والتحديات العاطفية.', app1Btn: 'احجز الآن',
+        app2Tag: '60 دقيقة', app2Title: 'الإشراف المهني', app2Desc: 'توجيه وإشراف إكلينيكي وتطبيقي للأخصائيين والمعالجين الجدد.', app2Btn: 'احجز الآن',
+        app3Tag: '90 دقيقة', app3Title: 'ورشة عمل جماعية', app3Desc: 'جلسة تفاعلية مباشرة ومجموعات دعم حول مهارات التشافي والعلاقات.', app3Btn: 'احجز الآن',
+        secCoursesTitle: 'مكتبة المواد والدورات',
+        secCoursesDesc: 'دورات متخصصة ومصممة بعناية لمساعدتك في رحلة النمو والشغف',
+        filterAll: 'الكل', filterFree: 'مجاني', filterPaid: 'مدفوع',
+        course1Badge: 'دورة مسجلة', course1Title: 'أساسيات العلاج المعرفي السلوكي', course1Price: '$120', course1Btn: 'معاينة الشراء',
+        course2Badge: 'دورة مجانية', course2Title: 'مدخل إلى الإسعافات النفسية الأولى', course2Price: 'مجاناً', course2Btn: 'مشاهدة الآن',
+        footerTitle: 'التواصل والمعلومات', footerDesc: 'support@nazdar-platform.com', footerPowered: 'منصة نَزْدَار © 2026'
+      },
+      en: {
+        dir: 'ltr',
+        langLabel: 'English',
+        fontClass: 'font-ltr',
+        brandName: 'Nazdar',
+        heroTitle: 'Your Gateway to Healing & Inner Peace..',
+        heroSubtitle: 'Professional 1-on-1 therapy sessions, workshops, and courses in emotional growth and mental wellness.',
+        btnAppointment: 'Book Your Consultation',
+        btnCourses: 'Browse Course Library',
+        retreatBanner: 'Conscious Relationships Retreat in Bahrain',
+        stat1: 'Clients Served', stat2: 'Years Experience', stat3: 'Training Courses', stat4: 'Positive Feedback',
+        secAppTitle: 'Consultation Types',
+        secAppDesc: 'Select the suitable session for your psychological needs',
+        app1Tag: '50 Min', app1Title: '1-on-1 Therapy Session', app1Desc: 'Private consultation for stress, anxiety, and trauma recovery.', app1Btn: 'Book Now',
+        app2Tag: '60 Min', app2Title: 'Clinical Supervision', app2Desc: 'Professional clinical guidance for junior therapists and trainees.', app2Btn: 'Book Now',
+        app3Tag: '90 Min', app3Title: 'Group Workshop', app3Desc: 'Interactive live session on self-healing & healthy relationship skills.', app3Btn: 'Book Now',
+        secCoursesTitle: 'Courses Library',
+        secCoursesDesc: 'Specialized masterclasses designed for self-paced personal growth',
+        filterAll: 'All', filterFree: 'Free', filterPaid: 'Paid',
+        course1Badge: 'Recorded Course', course1Title: 'Cognitive Behavioral Therapy (CBT) Basics', course1Price: '$120', course1Btn: 'Preview & Buy',
+        course2Badge: 'Free Course', course2Title: 'Intro to Psychological First Aid', course2Price: 'Free', course2Btn: 'Watch Now',
+        footerTitle: 'Contact & Information', footerDesc: 'support@nazdar-platform.com', footerPowered: 'Powered by Nazdar Platform © 2026'
+      },
+      kr_badini: {
+        dir: 'rtl',
+        langLabel: 'بادينى',
+        fontClass: '',
+        brandName: 'نەزدار',
+        heroTitle: 'دەرگەهێ تە بۆ ساخبوونەڤێ و ئارامیا دەروونی..',
+        heroSubtitle: 'دانیشتنێن شێورکاری، وۆرکشۆپ و خولێن تایبەتمەند د گەشەپێدانا دەروونیدا.',
+        btnAppointment: 'چاڤپێکەفتنا خۆ تۆماربکە',
+        btnCourses: 'ل بابەتان بگەڕیھ',
+        retreatBanner: 'ڕیتریتێ پەیوەندیێن هۆشیار ل بەحرەینێ',
+        stat1: 'مفا وەرگرتین', stat2: 'ساڵێن ئزموونێ', stat3: 'خولێن مەشقێ', stat4: 'ڕێژەیا ڕەزامەندیێ',
+        secAppTitle: 'جۆرێن چاڤپێکەفتنان',
+        secAppDesc: 'روونشتنا گونجای بۆ پێدڤیێن خۆ یێن دەرونی هەلبژێرە',
+        app1Tag: '٥٠ خولەک', app1Title: 'روونشتنا چارەسەریا تاكەکەسی', app1Desc: 'شێورکاریا تایبەت بۆ سەرەدەریێ دگەل دلتەنگی و سترێسێ.', app1Btn: 'نۆکە توماربکە',
+        app2Tag: '٦٠ خولەک', app2Title: 'سەرپەرشتیا پیشەیی', app2Desc: 'ڕێنماییکردنا پیشەیی بۆ نوژدار و چارەسەرکارێن دەستپێکێ.', app2Btn: 'نۆکە توماربکە',
+        app3Tag: '٩٠ خولەک', app3Title: 'وۆرکشۆپا کۆمەڵایەتی', app3Desc: 'روونشتنا ڕاستەوخۆ دەربارەی شیانێن ساخبوونەڤێ و پەیوەندیان.', app3Btn: 'نۆکە توماربکە',
+        secCoursesTitle: 'کتێبخانەیا خولان',
+        secCoursesDesc: 'خولێن تایبەت بۆ فێربوونا سەربەخۆ',
+        filterAll: 'همی', filterFree: 'بێبەرامبەر', filterPaid: 'ب پارە',
+        course1Badge: 'خولا تۆمارکری', course1Title: 'بنەماێن چارەسەریا ڕەفتاریی دەروونی (CBT)', course1Price: '$120', course1Btn: 'کرینا خولێ',
+        course2Badge: 'خولا بێبەرامبەر', course2Title: 'دەستپێکەک بۆ هۆشیاریا ئێکەم یا دەروونی', course2Price: 'بێبەرامبەر', course2Btn: 'سەحکێ',
+        footerTitle: 'پەیوەندی و زانیاری', footerDesc: 'support@nazdar-platform.com', footerPowered: 'پلاتفۆڕما نەزدار © 2026'
+      },
+      kr_sorani: {
+        dir: 'rtl',
+        langLabel: 'سۆرانی',
+        fontClass: '',
+        brandName: 'نەزدار',
+        heroTitle: 'دەروازەی تۆ بۆ چاکبوونەوە و ئارامی ناوەکی..',
+        heroSubtitle: 'دانیشتنی ڕاوێژکاری، وۆرکشۆپی مەشق و خولی پسپۆڕی دەروونی.',
+        btnAppointment: 'ژوانی ڕاوێژەکەت دابنێ',
+        btnCourses: 'گەڕان بەناو بابەتی خولەکان',
+        retreatBanner: 'ڕیتریتی پەیوەندییە هۆشیارەکان لە بەحرەین',
+        stat1: 'سوودمەندبووان', stat2: 'ساڵ ئەزموون', stat3: 'خولەکانی مەشق', stat4: 'ڕێژەی ڕەزامەندی',
+        secAppTitle: 'جۆرەکانی ژوانی ڕاوێژکاری',
+        secAppDesc: 'دانیشتنی گونجاو بۆ پێداویستییە دەروونییەکانت هەڵبژێرە',
+        app1Tag: '٥٠ خولەک', app1Title: 'دانیشتنی چارەسەری تاکی', app1Desc: 'ڕاوێژی تایبەت بۆ مامەڵەکردن لەگەڵ قڵپ و پەستانی دەروونی.', app1Btn: 'ئێستا تۆمار بکە',
+        app2Tag: '٦٠ خولەک', app2Title: 'سەرپەرشتیاری پیشەیی', app2Desc: 'ڕێنماییکردنی کلینیکی بۆ توێژەران و چارەسەرکارانی تازەکار.', app2Btn: 'ئێستا تۆمار بکە',
+        app3Tag: '٩٠ خولەک', app3Title: 'وۆرکشۆپی کۆمەڵایەتی', app3Desc: 'دانیشتنی ڕاستەوخۆی کارلێککارانە سەبارەت بە تواناکانی چاکبوونەوە.', app3Btn: 'ئێستا تۆمار بکە',
+        secCoursesTitle: 'کتێبخانەی خولەکان',
+        secCoursesDesc: 'خولە تۆمارکراوەکان بۆ فێربوونی خۆڕسک',
+        filterAll: 'هەموو', filterFree: 'بێبەرامبەر', filterPaid: 'بڕی پارە',
+        course1Badge: 'خولی تۆمارکراو', course1Title: 'بنیاتەکانی چارەسەری ڕەفتاری نیشانەیی (CBT)', course1Price: '$120', course1Btn: 'بەکڕین',
+        course2Badge: 'خولی بێبەرامبەر', course2Title: 'دەستپێکێک بۆ فریاگوزاری یەکەمی دەروونی', course2Price: 'خۆڕایی', course2Btn: 'سەیری بکە',
+        footerTitle: 'پەیوەندی و زانیاری', footerDesc: 'support@nazdar-platform.com', footerPowered: 'پلاتفۆرمی نەزدار © 2026'
+      }
+    };
 
-    catalogTitle: 'Educational Courses Library', catalogSub: 'Self-paced video modules, guided audio exercises, and clinical digital toolkits.',
-    filterAll: 'All Resources', filterFree: 'Free', filterPaid: 'Premium',
-    badgeFree: 'Free', badgePaid: 'Premium', listenNow: 'Listen Now', watchNow: 'Watch Now', downloadNow: 'Download', contactEnroll: 'Enroll',
-    course1Title: 'Relationship Detox & Emotional Release', course1Desc: 'A guided audio session focused on releasing residual pain and establishing psychological safety after difficult relationship cycles.', stat1: '30 min',
-    course2Title: 'Healing Childhood Trauma & Unconscious Attachment', course2Desc: 'A multi-module practical course designed to identify deep-seated trauma patterns and rebuild internal security.', stat2: '4 Modules · 12 Lessons',
-    course3Title: 'Recognizing Emotional Manipulation', course3Desc: 'Practical tools to detect subtle control tactics in partner or family dynamics and establish clear personal boundaries.', stat3: '2h 15m total',
-    course4Title: 'Anxiety Regulation Starter Kit', course4Desc: 'Immediate coping tools, grounding techniques, and symptom logs for managing high anxiety periods.', stat4: 'Download',
-    course5Title: 'CBT for Overthinking & Rumination', course5Desc: 'Step-by-step cognitive restructuring techniques to stop repetitive intrusive thoughts and mental fatigue.', stat5: '3 Modules · 8 Lessons',
-    course6Title: 'Understanding Parent-Child Boundaries', course6Desc: 'Educational insights for parents on fostering emotional independence without breaking connection.', stat6: '45 min',
+    function setLanguage(langKey) {
+      const lang = translations[langKey];
+      if (!lang) return;
 
-    faqTitle: 'Frequently Asked Questions', faqSub: 'Key information on confidential consultations, language fluency, and course enrollment.',
-    faq1Q: 'How are confidential video sessions conducted?', faq1A: 'Sessions are held securely via encrypted video links. Once your appointment is confirmed, you will receive a direct email and WhatsApp notification with your access link and prep notes.',
-    faq2Q: 'Which languages can I conduct my session in?', faq2A: 'Nazdar provides clinical consultations and courses fluently in English, Arabic, Kurdish Badini, and Kurdish Sorani. You can select your preferred language during registration.',
-    faq3Q: 'What is the policy for cancellations or rescheduling?', faq3A: 'Consultations can be rescheduled up to 24 hours prior to the session time via your confirmation link without penalty.',
-    footerAbout: 'Private Consultations & Psychological Education', footerContact: 'WhatsApp Support'
-  },
-  ar: {
-    dir: 'rtl', brand: 'نازدار', navAbout: 'عن نازدار', navConsultations: 'حجز جلسة', navCourses: 'مكتبة الدورات', navFaq: 'الأسئلة الشائعة',
-    eyebrow: 'أخصائية نفسية عيادية ومعالجة معتمدة',
-    heroName: 'نازدار',
-    heroTitle: 'متخصصة في أنماط التعلق، علاج الصدمات المركبة والتوازن العاطفي',
-    heroBio: 'أهلاً بك في مساحة آمنة ومبنية على الأدلة العلمية للتغيير الشخصي. بخبرة تمتد لأكثر من ١٠ سنوات دعتمدها في العلاج العيادي، أساعد الأفراد والأزواج على التعافي من الصدمات، تجاوز قلق العلاقات، وبناء روابط متينة. تُقدم الخدمات بطلاقة بالألمانية، العربية، البادينية، والسورانية.',
-    expYears: '+١٠ سنوات', expLabel: 'خبرة عيادية',
-    cred1: 'ممارسة عيادية مرخصة', cred2: 'أخصائية علاج الصدمات', cred3: 'طلاقة بـ ٤ لغات',
-    btnBookHero: 'احجز جلسة الآن', btnExploreCourses: 'استكشف المكتبة',
+      const htmlRoot = document.getElementById('html-root');
+      htmlRoot.setAttribute('dir', lang.dir);
+      htmlRoot.setAttribute('lang', langKey);
+      
+      if (lang.fontClass) {
+        document.body.classList.add(lang.fontClass);
+      } else {
+        document.body.classList.remove('font-ltr');
+      }
 
-    bookSectionTitle: 'جلسات استشارية خاصة وسرية',
-    bookSectionSub: 'جلسات افتراضية مشفرة ومصممة لتناسب رحلتك النفسية وتطورك الشخصي.',
-    sessionIndividual: 'جلسة فردية', metaIndividual: '٥٠ دقيقة · فيديو خاص', descIndividual: 'استشارة فردية مركزة للتعافي من الصدمات، تنظيم القلق، والمعالجة العاطفية.',
-    sessionCouples: 'علاج الأزواج', metaCouples: '٧٥ دقيقة · تقييم مشترك', descCouples: 'توجيه علاقات مخصص لحل الخلافات التواصلية وإعادة بناء الأمان والمودة.', badgePopular: 'الأكثر طلباً',
-    sessionUrgent: 'جلسة دعم عاجل', metaUrgent: 'مضمونة خلال ٢٤–٤٨ ساعة', descUrgent: 'حجز سريع للأزمات النفسية المفاجئة أو الحالات التي تتطلب دعماً استثنائياً.',
-    btnBookNow: 'احجز الموعد',
-    waTitle: 'هل تحتاج إلى تنسيق خاص أو حساب مؤسسي؟', waSub: 'تواصل مع منسق الاستقبال مباشرة لطلبات الجدولة الخاصة.', waBtn: 'الدعم عبر الواتساب (0097338777445)',
+      document.getElementById('current-lang-label').innerText = lang.langLabel;
+      document.getElementById('brand-name').innerText = lang.brandName;
+      document.getElementById('hero-title').innerText = lang.heroTitle;
+      document.getElementById('hero-subtitle').innerText = lang.heroSubtitle;
+      document.getElementById('btn-appointment').innerText = lang.btnAppointment;
+      document.getElementById('btn-courses').innerText = lang.btnCourses;
+      document.getElementById('retreat-banner').innerText = lang.retreatBanner;
+      
+      document.getElementById('stat-1').innerText = lang.stat1;
+      document.getElementById('stat-2').innerText = lang.stat2;
+      document.getElementById('stat-3').innerText = lang.stat3;
+      document.getElementById('stat-4').innerText = lang.stat4;
 
-    catalogTitle: 'مكتبة الدورات والتعليم', catalogSub: 'دورات فيديو، تمارين صوتية موجهة، وأدلة عمل رقمية.',
-    filterAll: 'الكل', filterFree: 'مجاني', filterPaid: 'مدفوع',
-    badgeFree: 'مجاني', badgePaid: 'مدفوع', listenNow: 'استمع الآن', watchNow: 'شاهد الآن', downloadNow: 'تحميل', contactEnroll: 'التسجيل',
-    course1Title: 'تنظيف العلاقات وتحرير الألم', course1Desc: 'جلسة تأمل صوتية لفك الارتباط العاطفي وإعادة بناء الأمان الداخلي بعد العلاقات الصعبة.', stat1: '٣٠ دقيقة',
-    course2Title: 'الشفاء من صدمات الطفولة والتعلق المرضي', course2Desc: 'كورس عملي متكامل لاكتشاف عقد الطفولة وتفكيك نمط التعلق غير الآمن.', stat2: '٤ محاور · ١٢ درسًا',
-    course3Title: 'كشف التلاعب العاطفي ووضع الحدود', course3Desc: 'أدوات عملية للتعرف على أساليب السيطرة وحماية مساحتك النفسية في العلاقات.', stat3: 'ساعتان و١٥ دقيقة',
-    course4Title: 'حقيبة التعامل مع القلق والتوتر', course4Desc: 'تقنيات التهدئة الفورية، تمارين التأريض، وسجل متابعة الأعراض.', stat4: 'تحميل',
-    course5Title: 'العلاج المعرفي للتفكير الزائد والاجترار', course5Desc: 'خطوات عملية لإعادة الهيكلة المعرفية وإيقاف الأفكار المزعجة المستمرة.', stat5: '٣ محاور · ٨ دروس',
-    course6Title: 'فهم الحدود بين الأهل والأبناء', course6Desc: 'إرشادات للأهل لبناء الاستقلالية العاطفية لدى الأبناء دون إضعاف الروابط.', stat6: '٤٥ دقيقة',
+      document.getElementById('section-appointments-title').innerText = lang.secAppTitle;
+      document.getElementById('section-appointments-desc').innerText = lang.secAppDesc;
+      document.getElementById('app-1-tag').innerText = lang.app1Tag;
+      document.getElementById('app-1-title').innerText = lang.app1Title;
+      document.getElementById('app-1-desc').innerText = lang.app1Desc;
+      document.getElementById('app-1-btn').innerText = lang.app1Btn;
+      document.getElementById('app-2-tag').innerText = lang.app2Tag;
+      document.getElementById('app-2-title').innerText = lang.app2Title;
+      document.getElementById('app-2-desc').innerText = lang.app2Desc;
+      document.getElementById('app-2-btn').innerText = lang.app2Btn;
+      document.getElementById('app-3-tag').innerText = lang.app3Tag;
+      document.getElementById('app-3-title').innerText = lang.app3Title;
+      document.getElementById('app-3-desc').innerText = lang.app3Desc;
+      document.getElementById('app-3-btn').innerText = lang.app3Btn;
 
-    faqTitle: 'الأسئلة الشائعة', faqSub: 'معلومات أساسية عن حجز الاستشارات، اللغات المتاحة، والوصول للدورات.',
-    faq1Q: 'كيف يتم إجراء جلسات الفيديو السرية؟', faq1A: 'تُجرى الجلسات عبر روابط فيديو مشفرة. بعد تأكيد الحجز، ستصلك رسالة عبر البريد الإلكتروني والواتساب تحتوي على رابط الدخول.',
-    faq2Q: 'ما هي اللغات المتاحة للجلسات؟', faq2A: 'تقدم نازدار الاستشارات والدورات بطلاقة باللغات الإنجليزية، العربية، الكردية البادينية، والكردية السورانية.',
-    faq3Q: 'ما هي سياسة الإلغاء أو إعادة الجدولة؟', faq3A: 'يمكنك تعديل موعد الجلسة قبل ٢٤ ساعة من موعدها مجانًا عبر رابط التأكيد.',
-    footerAbout: 'منصة الاستشارات النفسية والتطوير الذاتي', footerContact: 'الدعم عبر الواتساب'
-  },
-  kubd: {
-    dir: 'rtl', brand: 'نازدار', navAbout: 'دەربارەی نازدار', navConsultations: 'تۆمارکرنا دانیشتنێ', navCourses: 'کتێبخانا کۆرسان', navFaq: 'پرسیار',
-    eyebrow: 'ڕاوێژکارا دەروونی و دەرمانکارا کلینیکی',
-    heroName: 'نازدار',
-    heroTitle: 'تایبەتمەند د گرێدانا پەیوەندیان، چاڕەسەرکرنا ترۆمایان و ئاڤاکرنا ئارامیێ',
-    heroBio: 'بەخێربێن بۆ جهەکێ ئارام و زانستی بۆ گۆڕینا کەسایەتیێ. ب ئەزموونا پتر ژ ۱۰ ساڵان د دەرمانکرنا کلینیکی دا، ئازادیێ و ئارامیێ بۆ کەسان و هەڤژینان دزڤڕینم. خزمەتگوزاری ب زمانێن ئینگلیزی، عەرەبی، بادینی و سۆرانی دهێنە پێشکەشکرن.',
-    expYears: '+۱۰ ساڵ', expLabel: 'ئەزموونا کلینیکی',
-    cred1: 'دەرمانکارا ڕێپێدای', cred2: 'پپسپۆڕا چاڕەسەرییا ترۆما', cred3: 'زانینا ٤ زمانان',
-    btnBookHero: 'دانیشتنەکێ تۆمار بکه', btnExploreCourses: 'کتێبخانێ ببینە',
+      document.getElementById('section-courses-title').innerText = lang.secCoursesTitle;
+      document.getElementById('section-courses-desc').innerText = lang.secCoursesDesc;
+      document.getElementById('filter-all').innerText = lang.filterAll;
+      document.getElementById('filter-free').innerText = lang.filterFree;
+      document.getElementById('filter-paid').innerText = lang.filterPaid;
+      document.getElementById('course-1-badge').innerText = lang.course1Badge;
+      document.getElementById('course-1-title').innerText = lang.course1Title;
+      document.getElementById('course-1-price').innerText = lang.course1Price;
+      document.getElementById('course-1-btn').innerText = lang.course1Btn;
+      document.getElementById('course-2-badge').innerText = lang.course2Badge;
+      document.getElementById('course-2-title').innerText = lang.course2Title;
+      document.getElementById('course-2-price').innerText = lang.course2Price;
+      document.getElementById('course-2-btn').innerText = lang.course2Btn;
 
-    bookSectionTitle: 'دانیشتنێن شاوێژکاری یێن تایبەت',
-    bookSectionSub: 'دانیشتنێن ڤیدیۆیی ڕاستەوخۆ و پاراستی تایبەت بۆ ڕێکا تە یا دەروونی.',
-    sessionIndividual: 'شاوێژکاریا تاکەکەسی', metaIndividual: '٥٠ خولەک · پەیوەندیا ڤیدیۆیی', descIndividual: 'دانیشتنا تایبەت بۆ چاڕەسەرکرنا برینێن دەروونی و ڕێکخستنا قلقێ.',
-    sessionCouples: 'دانیشتنا هەڤژینان', metaCouples: '٧٥ خولەک · هەلسەنگاندن', descCouples: 'دانیشتنا تایبەت بۆ چارەسەرکرنا ئاریشێن پەیوەندیکرنێ و زڤڕاندنا حەزژێکرنێ.', badgePopular: 'هەرە داواکری',
-    sessionUrgent: 'دانیشتنا بلەز', metaUrgent: 'د ناڤبەرا ٢٤-٤٨ سەعەتان دا', descUrgent: 'تۆمارکرنا بلەز بۆ حالەتێن نەچار و بارودۆخێن ئالۆز یێن دەروونی.',
-    btnBookNow: 'دەمی دەستنیشان بکه',
-    waTitle: 'پێویستی ب ڕێکخستنا تایبەت هەیە؟', waSub: 'پەیوەندیێ ب ڕێڤەبەرێ پێشوازیێ بکه بۆ داخوازیێن تایبەت.', waBtn: 'پشتگیریا واتسئەپێ (0097338777445)',
+      document.getElementById('footer-contact-title').innerText = lang.footerTitle;
+      document.getElementById('footer-contact-desc').innerText = lang.footerDesc;
+      document.getElementById('footer-powered').innerText = lang.footerPowered;
+    }
 
-    catalogTitle: 'کتێبخانا فێربوونێ', catalogSub: 'کۆرسێن ڤیدیۆ، ڕێنماییێن دەنگی، و بابەتیێن دابەزاندنێ.',
-    filterAll: 'هەمی', filterFree: 'بەردەلال', filterPaid: 'دراوی',
-    badgeFree: 'بەردەلال', badgePaid: 'دراوی', listenNow: 'گوهداربە', watchNow: 'بینە', downloadNow: 'دابەزاندن', contactEnroll: 'تۆمارکرن',
-    course1Title: 'پاقژکرنا پەیوەندیان و ڕزگاربوون ژ ئێشێ', course1Desc: 'دانیشتنەکا دەنگی بۆ ڕزگاربوون ژ ئێشێن پەیوەندیێن ئالۆز.', stat1: '٣٠ خولەک',
-    course2Title: 'چاڕەسەرکرنا ترۆمایا زارۆکینیێ', course2Desc: 'کۆرسەکێ پراکتیکی بۆ ئاشکراکرنا برینێن کەڤن.', stat2: '٤ تەوەر · ١٢ دەرس',
-    course3Title: 'ناسینا تەکتیکێن خەڵەتاندنێ', course3Desc: 'ئامرازێن پراکتیکی بۆ پاراستنا سنورێن خۆ یێن دەروونی.', stat3: '٢ سەعەت و١٥ خولەک',
-    course4Title: 'جانتا هاریکارییا بلەز یا قلقێ', course4Desc: 'ئامرازێن ئارامکرنا بلەز و ڕاهێنانێن دەروونی.', stat4: 'دابەزاندن',
-    course5Title: 'CBT بۆ هزرا زێدە و ئاڵۆزیێ', course5Desc: 'تەکنيكێن ڕێکخستنا مەعریفی بۆ ڕاوەستاندنا هزرێن ڕاهاتی.', stat5: '٣ تەوەر · ٨ دەرس',
-    course6Title: 'تێگەهشتن ژ سنورێن دەیباب و زارۆکان', course6Desc: 'ڕێنمایی بۆ دەیبابان بۆ ئاڤاکرنا سەربەخۆیا عاطفی.', stat6: '٤٥ خولەک',
+    function toggleDrawer(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('hidden');
+    }
 
-    faqTitle: 'پرسیارێن بەربەلاڤ', faqSub: 'زانیاری دەربارەی تۆمارکرن، زمان، و دەستگەهیشتن.',
-    faq1Q: 'چەوا دانیشتنێن ڤیدیۆیی دهێنە ڕێڤەبرن؟', faq1A: 'دانیشتن ب ڕێکا لینکێن پاراستی دهێنە کرن. پشتی تۆمارکرنێ ئیمێل و واتسئەپ دێ بۆ تە هێت.',
-    faq2Q: 'بەردەستیا زمانان چییە؟', faq2A: 'نازدار ب زمانێن ئینگلیزی، عەرەبی، بادینی، و سۆرانی شاوێژکاریێ پێشکەش دکەت.',
-    faq3Q: 'مەرجێن هەلوەشاندنێ چنن؟', faq3A: 'تۆ دشێی دەمێ دانیشتنێ بگۆڕی بەری ٢٤ سەعەتان ب بێ چ تێچوو.',
-    footerAbout: 'پلاتفۆڕما شاوێژکاریا دەروونی', footerContact: 'پشتگیریا واتسئەپێ'
-  },
-  kuso: {
-    dir: 'rtl', brand: 'نازدار', navAbout: 'دەربارەی نازدار', navConsultations: 'تۆمارکردنی دانیشتن', navCourses: 'کتێبخانەی کۆرسەکان', navFaq: 'پرسیارەکان',
-    eyebrow: 'پسپۆڕی دەروونناسی کلینیکی و ڕاهێنەر',
-    heroName: 'نازدار',
-    heroTitle: 'پپسپۆڕی شێوازی بەستنەوە، چاکبوونەوە لە ترۆما و دروستکردنی ئارامی',
-    heroBio: 'بەخێربێن بۆ شوێنێکی ئارام و زانستی بۆ گۆڕانکاری کەسایەتی. بە ئەزموونی زیاتر لە ۱۰ ساڵ لە چارەسەری دەروونیدا، هاوکاری کەسەکان و هاوسەران دەکەم بۆ تێپەڕاندنی قڵقی و ترۆما. خزمەتگوزارییەکان بە زمانی ئینگلیزی، عەرەبی، بادینی و سۆرانی پێشکەش دەکرێن.',
-    expYears: '+۱۰ ساڵ', expLabel: 'ئەزموونی کلینیکی',
-    cred1: 'دەرمانکاری ڕێگەپێدراو', cred2: 'پسپۆڕی چاکبوونەوە لە ترۆما', cred3: 'شارەزای ٤ زمان',
-    btnBookHero: 'دانیشتنێک تۆمار بکە', btnExploreCourses: 'سەردانی کتێبخانە بکە',
+    function toggleModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('hidden');
+    }
 
-    bookSectionTitle: 'دانیشتنی ڕاوێژکاری تایبەت',
-    bookSectionSub: 'دانیشتنی ڤیدیۆیی ڕاستەوخۆ و پارێزراو تایبەت بە گەشەی دەروونی تۆ.',
-    sessionIndividual: 'ڕاوێژکاری تاکەکەسی', metaIndividual: '٥٠ خولەک · پەیوەندی ڤیدیۆیی', descIndividual: 'دانیشتنی تایبەت بۆ چارەسەری ترۆما، ڕێکخستنی قڵقی و چارەسەری سۆزداری.',
-    sessionCouples: 'چارەسەری هاوسەران', metaCouples: '٧٥ خولەک · هەڵسەنگاندن', descCouples: 'ڕاهێنانی تایبەت بۆ چارەسەری کێشەکانی پەیوەندیکردن و گەڕاندنەوەی خۆشەویستی.', badgePopular: 'پڕداواکارترین',
-    sessionUrgent: 'دانیشتنی بەپەلە', metaUrgent: 'لەنێوان ٢٤-٤٨ کاتژمێردا', descUrgent: 'تۆمارکردنی خێرا بۆ کاتە سەختەکان و قەیرانە دەروونییە لەناکاوەکان.',
-    btnBookNow: 'کاتەکەت هەڵبژێرە',
-    waTitle: 'پێویستت بە ڕێکخستنی تایبەت هەیە؟', waSub: 'پەیوەندی بکە بە بەڕێوەبەری پێشوازی بۆ داواکاری تایبەت.', waBtn: 'پشتیوانی واتسئاپ (0097338777445)',
+    function openBookingDrawer(type) {
+      document.getElementById('booking-session-type').value = type;
+      toggleDrawer('booking-drawer');
+    }
 
-    catalogTitle: 'کتێبخانەی خۆفێرکردن', catalogSub: 'کۆرسی ڤیدیۆیی، ڕێنمایی دەنگی، و بابەتی داگرتن.',
-    filterAll: 'هەموو', filterFree: 'بەخۆڕایی', filterPaid: 'پریمیۆم',
-    badgeFree: 'بەخۆڕایی', badgePaid: 'پریمیۆم', listenNow: 'گوێبگرە', watchNow: 'ببینە', downloadNow: 'داگرتن', contactEnroll: 'تۆمارکردن',
-    course1Title: 'پاککردنەوەی پەیوەندییەکان و ڕزگاربوون لە ئازار', course1Desc: 'دانیشتنێکی دەنگی بۆ ئازادبوون لە ئازاری پەیوەندییە سەختەکان.', stat1: '٣٠ خولەک',
-    course2Title: 'چاکبوونەوە لە ترۆمای منداڵی', course2Desc: 'کۆرسێکی کرداری بۆ دەستنیشانکردنی برینە کۆنەکان.', stat2: '٤ تەوەر · ١٢ وانە',
-    course3Title: 'ناسینەوەی تەڵەکەی سۆزداری', course3Desc: 'ئامرازی کرداری بۆ پاراستنی سنووری دەروونی خۆت.', stat3: '٢ کاتژمێر و١٥ خولەک',
-    course4Title: 'جانتا سەرەتاییەکەی ڕێکخستنی قڵقی', course4Desc: 'ئامرازی هێوربوونەوەی خێرا و تۆماری نیشانەکان.', stat4: 'داگرتن',
-    course5Title: 'CBT بۆ بیرکردنەوەی زۆر', course5Desc: 'ڕێگەی کرداری بۆ وەستاندنی بیرکردنەوەی بەردەوام.', stat5: '٣ تەوەر · ٨ وانە',
-    course6Title: 'تێگەیشتن لە سنووری دایک و باوک و منداڵ', course6Desc: 'ڕێنمایی بۆ دایک و باوکان بۆ پەرەپێدانی سەربەخۆیی.', stat6: '٤٥ خولەک',
+    function openCourseModal(title, price) {
+      document.getElementById('modal-course-title').innerText = title;
+      document.getElementById('modal-course-price').innerText = price;
+      toggleModal('course-modal');
+    }
 
-    faqTitle: 'پرسیارە باوەکان', faqSub: 'زانیاری دەربارەی تۆمارکردن، زمان، و دەستگەیشتن.',
-    faq1Q: 'دانیشتنە ڤیدیۆییە تایبەتەکان چۆن بەڕێوەدەچن؟', faq1A: 'دانیشتنەکان لەڕێگەی لینکی ڤیدیۆیی پارێزراوەوە دەکرێن. ئیمەیڵ و واتسئاپت بۆ دێت.',
-    faq2Q: 'دانیشتنەکان بە چ زمانێک دەکەرێن؟', faq2A: 'نازدار ڕاوێژکاری و کۆرسەکان بە ئینگلیزی، عەرەبی، بادینی، و سۆرانی پێشکەش دەکات.',
-    faq3Q: 'یاسای هەڵوەشاندنەوە چییە؟', faq3A: 'دەتوانیت کاتی دانیشتنەکە تا ٢٤ کاتژمێر پێشتر بەخۆڕایی بگۆڕیت.',
-    footerAbout: 'پلاتفۆرمی ڕاوێژکاری دەروونی', footerContact: 'پشتیوانی واتسئاپ'
-  }
-};
+    function filterCourses(type) {
+      const cards = document.querySelectorAll('.course-card');
+      cards.forEach(card => {
+        if (type === 'all') {
+          card.style.display = 'flex';
+        } else if (card.classList.contains(type)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
 
-/* Language Switching */
-function applyLang(code) {
-  const d = dict[code];
-  document.body.setAttribute('dir', d.dir);
-  document.documentElement.setAttribute('lang', code);
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (d[key] !== undefined) el.textContent = d[key];
-  });
-  document.querySelectorAll('#langPicker .lang-btn').forEach(b => {
-    b.classList.toggle('active', b.getAttribute('data-lang') === code);
-  });
-}
-
-document.getElementById('langPicker').addEventListener('click', e => {
-  const btn = e.target.closest('button');
-  if (!btn) return;
-  applyLang(btn.getAttribute('data-lang'));
-});
-
-/* Dark/Light Mode Theme Toggle */
-const themeBtn = document.getElementById('themeToggle');
-const sunIcon = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
-const moonIcon = `<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
-
-themeBtn.addEventListener('click', () => {
-  const currentTheme = document.documentElement.getAttribute('data-theme');
-  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-theme', newTheme);
-  themeBtn.innerHTML = newTheme === 'light' ? moonIcon : sunIcon;
-});
-
-/* Course Filtering */
-document.getElementById('filterBar').addEventListener('click', e => {
-  const btn = e.target.closest('button');
-  if (!btn) return;
-  document.querySelectorAll('#filterBar .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const f = btn.getAttribute('data-filter');
-  document.querySelectorAll('#courseGrid .course-card').forEach(c => {
-    c.style.display = (f === 'all' || c.getAttribute('data-tier') === f) ? 'flex' : 'none';
-  });
-});
-
-/* Accordion FAQs */
-document.querySelectorAll('.accordion-trigger').forEach(trigger => {
-  trigger.addEventListener('click', () => {
-    const node = trigger.parentElement;
-    const isActive = node.classList.contains('active');
-    document.querySelectorAll('.accordion-node').forEach(n => n.classList.remove('active'));
-    if (!isActive) node.classList.add('active');
-  });
-});
-</script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>
